@@ -1,16 +1,47 @@
 from numpy.testing import assert_allclose
-
+import pytest
 from logistic import f
+from logistic import iterate_f
+import numpy as np
+
+# set the random seed for once here
+SEED = np.random.randint(0, 2**31)
+@pytest.fixture
+def random_state():
+    print(f'Using seed {SEED}')
+    random_state = np.random.RandomState(SEED)
+    return random_state
 
 # Add here your test for the logistic map
 
+@pytest.mark.parametrize('x,r,expected', [(0, 1.1, 0),
+        (1, 3.7, 0),])
+def test_f_corner_cases(x,r,expected):
+    result = f(x, r)
+    assert_allclose(result, expected)
 
-def test_f_corner_cases():
-    # Test cases are (x, r, expected)
-    cases = [
-        (0, 1.1, 0),
-        (1, 3.7, 0),
-    ]
-    for x, r, expected in cases:
-        result = f(x, r)
-        assert_allclose(result, expected)
+@pytest.mark.parametrize('x,r,expected', [(0.1, 2.2, 0.198),
+        (0.2, 3.4, 0.544),
+        (0.5, 2, 0.5)])
+def test_f_generic_cases(x,r,expected):
+    result = f(x, r)
+    assert_allclose(result, expected)
+
+
+@pytest.mark.parametrize('it, x, r, expected', [
+    (1, 0.1, 2.2, [0.1, 0.198]),
+    (4, 0.2, 3.4, [0.2, 0.544, 0.843418, 0.449019, 0.841163]),
+    (3, 0.5, 2, [0.5, 0.5, 0.5, 0.5]),
+])
+def test_iterate_f(it,x,r,expected):
+    result = iterate_f(it, x, r)
+    assert_allclose(result, expected, atol=0.00001)
+
+
+def test_iterate_f_random(random_state):
+    for _ in range(100):
+        x0 = random_state.uniform(0.0001, 0.9999)
+        r= 1.5
+        xs = iterate_f(it=1000, x=x0, r=r)
+        expected= 1/3
+        assert_allclose(xs[-1], expected, atol=1e-6)
