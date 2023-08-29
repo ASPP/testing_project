@@ -4,7 +4,13 @@ from logistic import f
 from logistic import iterate_f
 import numpy as np
 
-SEED = 0
+# set the random seed for once here
+SEED = np.random.randint(0, 2**31)
+@pytest.fixture
+def random_state():
+    print(f'Using seed {SEED}')
+    random_state = np.random.RandomState(SEED)
+    return random_state
 
 # Add here your test for the logistic map
 
@@ -32,8 +38,7 @@ def test_iterate_f(it,x,r,expected):
     assert_allclose(result, expected, atol=0.00001)
 
 
-def test_iterate_f_random():
-    random_state = np.random.RandomState(SEED)
+def test_iterate_f_random(random_state):
     for _ in range(100):
         x0 = random_state.uniform(0.0001, 0.9999)
         r= 1.5
