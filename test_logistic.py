@@ -49,18 +49,24 @@ def test_fit_r(it, x0, r):
     result = fit_r(xs)
     assert np.isclose(result, r, atol=0.0001)
 
+SEED = np.random.randint(0, 2**31)
 
-def test_iterate_f_convergence():
+@pytest.fixture
+def random_state():
+    print(f"Seed: ", SEED)
+    random_state = np.random.RandomState(SEED)
+    return random_state
+
+
+def test_iterate_f_convergence(random_state):
     r=1.5
     it=35
-
-    random_state=np.random.RandomState(seed=42)
+    expected = 1/3
 
     for _ in range(100):
         x0 = random_state.uniform(0.0001, 0.99999)
 
         result = iterate_f(it, x0, r)
-        expected = 1/3
 
         assert np.isclose(result[-1], expected, atol=0.0001)
 
