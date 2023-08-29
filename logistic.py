@@ -1,5 +1,3 @@
-from plot_logistic import plot_trajectory
-
 def f(x, r):
     """
     Implements the logistic function.
