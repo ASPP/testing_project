@@ -6,6 +6,14 @@ from logistic import f
 from logistic_fit import fit_r
 from logistic import iterate_f
 
+SEED = np.random.randint(0, 2**31)
+
+@pytest.fixture
+def random_state():
+    print(f'Using seed {SEED}')
+    random_state = np.random.RandomState(SEED)
+    return random_state
+
 @pytest.mark.parametrize('x, r, expected', [
         (0, 1.1, 0),
         (1, 3.7, 0),
@@ -50,8 +58,7 @@ def test_fit_r(x, r, it):
     r_fitted = fit_r(traj)
     assert_allclose(r, r_fitted)
 
-def test_random_converge(r=1.5, it=100, expected=1/3, low=0.0001, high=0.9999, seed=42):
-    random_state = np.random.RandomState(seed)
+def test_random_converge(random_state, r=1.5, it=100, expected=1/3, low=0.0001, high=0.9999):
     for _ in range(100):
         x0 = random_state.uniform(low, high)
         traj = iterate_f(x0, r, it)
