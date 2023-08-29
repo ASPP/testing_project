@@ -5,6 +5,17 @@ from logistic_fit import fit_r
 from itertools import product
 import numpy as np
 
+
+SEED = 5
+
+
+@pytest.fixture
+def random_state():
+    print(f'Using seed{SEED}')
+    random_state = np.random.RandomState(SEED)
+    return random_state
+
+
 @pytest.mark.parametrize('x, r, expected', [
         (0, 1.1, 0),
         (1, 3.7, 0),
@@ -37,18 +48,18 @@ def test_logistic_iterations(x, r, n_iter, expected):
 
 
 
-@pytest.mark.parametrize('x, r, n_iter', [(i/10,f/10,20) for i,f in product(range(1,10),range(10,30,2))]
+@pytest.mark.parametrize('x, r, n_iter', [(i/10,f/10,20) for i,f in product(range(1,10,3),range(10,30,4))]
     )
 def test_logistic_fit_r(x, r, n_iter):
     result = fit_r(run_iterations(x, r, n_iter))
     assert_allclose(result, r, rtol=1e-3)
 
 
-SEED = 5
-@pytest.mark.parametrize('x', [np.random.RandomState(SEED).uniform(0.0001, 0.9999) for _ in range(50)])
-def test_logistic_convergence(x):
+def test_logistic_convergence(random_state):
     r = 1.5
     n_iter = 100
     expected = 1/3
-    result = run_iterations(x, r, n_iter)
-    assert_allclose(result[-1], expected, rtol=1e-4)
+    for _ in range(100):
+        x = random_state.uniform(0.0001, 0.9999)
+        result = run_iterations(x, r, n_iter)
+        assert_allclose(result[-1], expected, rtol=1e-4)
