@@ -1,7 +1,7 @@
 from numpy.testing import assert_allclose
 import numpy as np
 import pytest
-from logistic import f
+from logistic import f, iterate_f
 
 # Add here your test for the logistic map
 
@@ -28,3 +28,12 @@ def test_f_nan(x, r, expected):
     # Test cases are (x, r, expected)
     result = f(x, r)
     assert_allclose(result, expected)
+
+
+
+@pytest.mark.parametrize('it, x, r, expected', [(1,0.1,2.2,[0.1,0.198]),
+                (4,0.2,3.4,[0.2,0.544,0.843418,0.449019, 0.841163]),
+                (3,0.5,2,[0.5,0.5,0.5,0.5])])
+def test_iterate_f(it, x, r, expected):
+    result = iterate_f(it, x, r)
+    assert_allclose(result, expected, atol=0.00001) #adjusted tolerance
