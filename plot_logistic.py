@@ -10,7 +10,7 @@ from matplotlib import pyplot as plt
 from logistic import iterate_f
 
 
-def plot_trajectory(n, r, x0, fname="single_trajectory.png"):
+def plot_trajectory(x0,r,n, fname="single_trajectory.png"):
     """
     Saves a plot of a single trajectory of the logistic function
 
@@ -23,9 +23,9 @@ def plot_trajectory(n, r, x0, fname="single_trajectory.png"):
     returns
         fig, ax (matplotlib objects)
     """
-    xs = iterate_f(n, x0, r)
+    xs = iterate_f(x0, r, n)
     fig, ax = plt.subplots(figsize=(10, 5))
-    ax.plot(list(range(n)), xs)
+    ax.plot(list(range(n+1)), xs)
     fig.suptitle('Logistic Function')
 
     fig.savefig(fname)
@@ -68,3 +68,14 @@ def plot_bifurcation(start, end, step, fname="bifurcation.png", it=100000,
     ax.set_xlabel("r")
     fig.savefig(fname)
     return fig, ax
+
+
+
+
+
+x0=0.1
+r=1.5
+n=20
+
+plot_trajectory(x0, r, n)
+   
