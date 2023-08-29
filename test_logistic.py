@@ -27,7 +27,6 @@ def test_f_generic_cases(x, r, expected):
     result = f(x, r)
     assert_allclose(result, expected)
 
-
 @pytest.mark.parametrize(
     'x, r, it, expected', 
     [
@@ -50,3 +49,10 @@ def test_fit_r(x, r, it):
     traj = iterate_f(x, r, it)
     r_fitted = fit_r(traj)
     assert_allclose(r, r_fitted)
+
+def test_random_converge(r=1.5, it=100, expected=1/3, low=0.0001, high=0.9999, seed=42):
+    random_state = np.random.RandomState(seed)
+    for _ in range(100):
+        x0 = random_state.uniform(low, high)
+        traj = iterate_f(x0, r, it)
+        assert_allclose(traj[-1], expected, atol=1e-3)
