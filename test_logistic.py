@@ -2,7 +2,6 @@ from numpy.testing import assert_allclose
 import pytest
 from logistic import logistic_step
 
-# Add here your test for the logistic map
 
 @pytest.mark.parametrize('x, r, expected', [
         (0, 1.1, 0),
@@ -10,7 +9,6 @@ from logistic import logistic_step
     ]
     )
 def test_logistic_step_corner_cases(x, r, expected):
-    # Test cases are (x, r, expected)
     result = logistic_step(x, r)
     assert_allclose(result, expected)
 
@@ -21,6 +19,5 @@ def test_logistic_step_corner_cases(x, r, expected):
     ]
     )
 def test_logistic_step_generic_cases(x, r, expected):
-    # Test cases are (x, r, expected)
     result = logistic_step(x, r)
     assert_allclose(result, expected)
