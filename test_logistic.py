@@ -37,11 +37,13 @@ def test_logistic_iterations(x, r, n_iter, expected):
 
 
 
-# @pytest.mark.parametrize('x, r, n_iter', [(i/10,f/10,20) for i,f in product(range(0,20),range(0,30,5))]
-#     )
-# def test_logistic_fit_r(x, r, n_iter):
-#     result = fit_r(run_iterations(x, r, n_iter))
-#     assert_allclose(result, r, rtol=1e-3)
+@pytest.mark.parametrize('x, r, n_iter', [(i/10,f/10,20) for i,f in product(range(1,10),range(10,30,2))]
+    )
+def test_logistic_fit_r(x, r, n_iter):
+    result = fit_r(run_iterations(x, r, n_iter))
+    assert_allclose(result, r, rtol=1e-3)
+
+
 SEED = 5
 @pytest.mark.parametrize('x', [np.random.RandomState(SEED).uniform(0.0001, 0.9999) for _ in range(50)])
 def test_logistic_convergence(x):
