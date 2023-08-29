@@ -49,5 +49,6 @@ SEED = 5
 def test_logistic_convergence(x):
     r = 1.5
     n_iter = 100
+    expected = 1/3
     result = run_iterations(x, r, n_iter)
-    assert_allclose(result[-1], 1/3, rtol=1e-4)
+    assert_allclose(result[-1], expected, rtol=1e-4)
