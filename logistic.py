@@ -1,6 +1,7 @@
 def logistic_step(x, r):
     """ Compute the logistic map for a given value of x and r"""
-    return r * x * (1 - x)
+    constant_val = 1
+    return r * x * (constant_val - x)
 
 def run_iterations(start, n_iter, r):
     """ Run iterations of logistic function """
