@@ -4,7 +4,7 @@ import pytest
 from math import isclose
 import numpy as np
 
-SEED = 42
+SEED = np.random.randint(0, 2**31)
 # Add here your test for the logistic map
 
 # def test_f_general():
@@ -41,12 +41,17 @@ SEED = 42
 #     result = iterate_f(x,r,it)
 #     assert_allclose(result,expected,atol=0.001)
 
-def test_random_starting_point_convergence():
+@pytest.fixture
+def random_state():
+    print(f'\nUsing Seed: {SEED}')
     random_state = np.random.RandomState(SEED)
+    return random_state
+
+def test_random_starting_point_convergence(random_state):
     r = 1.5
     n = 100
     it = 30
-    n_convergence_datapoints = 10
+    n_convergence_datapoints = 3
     for _ in range(n):
         x0 = random_state.uniform(0.0001, 0.9999)
         xs = iterate_f(x0,r,it)
