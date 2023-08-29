@@ -23,10 +23,10 @@ def fit_r(xs):
     x0 = xs[0]
     it = len(xs) - 1
 
-    def error(r):
+    def compute_error(r):
         return np.linalg.norm(xs - run_iterations(x0, r, it))
 
     errors = []
     for r in np.linspace(0, 4, 4001):
-        errors.append((r, error(r)))
+        errors.append((r, compute_error(r)))
     return min(errors, key=lambda x: x[1])[0]
