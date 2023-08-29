@@ -2,6 +2,9 @@ from numpy.testing import assert_allclose
 import pytest
 from logistic import f
 from logistic import iterate_f
+import numpy as np
+
+SEED = 0
 
 # Add here your test for the logistic map
 
@@ -27,3 +30,13 @@ def test_f_generic_cases(x,r,expected):
 def test_iterate_f(it,x,r,expected):
     result = iterate_f(it, x, r)
     assert_allclose(result, expected, atol=0.00001)
+
+
+def test_iterate_f_random():
+    random_state = np.random.RandomState(SEED)
+    for _ in range(100):
+        x0 = random_state.uniform(0.0001, 0.9999)
+        r= 1.5
+        xs = iterate_f(it=1000, x=x0, r=r)
+        expected= 1/3
+        assert_allclose(xs[-1], expected, atol=1e-6)
