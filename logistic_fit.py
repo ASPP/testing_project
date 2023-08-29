@@ -1,6 +1,6 @@
 import numpy as np
 
-from logistic import iterate_f
+from logistic import run_iterations
 
 
 def fit_r(xs):
@@ -24,7 +24,7 @@ def fit_r(xs):
     it = len(xs) - 1
 
     def error(r):
-        return np.linalg.norm(xs - iterate_f(it, x0, r))
+        return np.linalg.norm(xs - run_iterations(x0, r, it))
 
     errors = []
     for r in np.linspace(0, 4, 4001):

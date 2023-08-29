@@ -1,6 +1,7 @@
 from numpy.testing import assert_allclose
 import pytest
 from logistic import logistic_step, run_iterations
+from logistic_fit import fit_r
 
 
 @pytest.mark.parametrize('x, r, expected', [
@@ -31,3 +32,13 @@ def test_logistic_step_generic_cases(x, r, expected):
 def test_logistic_iterations(x, r, n_iter, expected):
     result = run_iterations(x, r, n_iter)
     assert_allclose(result, expected, rtol=1e-4)
+
+@pytest.mark.parametrize('x, r, n_iter', [
+        (0.1, 2.2, 1),
+        (0.2, 3.4, 4),
+        (0.5, 2, 3),
+    ]
+    )
+def test_logistic_fit_r(x, r, n_iter):
+    result = fit_r(run_iterations(x, r, n_iter))
+    assert_allclose(result, r, rtol=1e-4)

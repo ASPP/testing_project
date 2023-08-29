@@ -15,8 +15,8 @@ def run_iterations(start, r, n_iter):
 
 if __name__=='__main__':
     start_vals = [i/10 for i in range(1, 6)]
-    r = 1.5
-    n_iter = 10
+    r = 1.2
+    n_iter = 20
     fig_name = "test_trajectory"
 
     fig, ax = plt.subplots(figsize=(10, 5))
