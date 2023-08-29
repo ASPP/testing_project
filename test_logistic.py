@@ -1,40 +1,30 @@
 from numpy.testing import assert_allclose
 import numpy as np
-
+import pytest
 from logistic import f
 
 # Add here your test for the logistic map
 
-
-def test_f_corner_cases():
+@pytest.mark.parametrize('x, r, expected', [(0, 1.1, 0), (1, 3.7, 0)])
+def test_f_corner_cases(x, r, expected):
     # Test cases are (x, r, expected)
-    cases = [
-        (0, 1.1, 0),
-        (1, 3.7, 0),
-    ]
-    for x, r, expected in cases:
-        result = f(x, r)
-        assert_allclose(result, expected)
+    result = f(x, r)
+    assert_allclose(result, expected)
 
 
-def test_f_generic_cases():
-    # Test cases are (x, r, expected)
-    cases = [
+@pytest.mark.parametrize('x, r, expected', [
         (0.1, 2.2, 0.198),
         (0.2, 3.4, 0.544),
         (0.5, 2,   0.5)
-    ]
-    for x, r, expected in cases:
-        result = f(x, r)
-        assert_allclose(result, expected)
-
-
-def test_f_nan():
+    ])
+def test_f_generic_cases(x,r,expected):
     # Test cases are (x, r, expected)
-    cases = [
-        (0.1, np.nan, np.nan),
-        (np.nan,2, np.nan)
-    ]
-    for x, r, expected in cases:
-        result = f(x, r)
-        assert_allclose(result, expected)
+    result = f(x, r)
+    assert_allclose(result, expected)
+
+
+@pytest.mark.parametrize('x, r, expected', [(0.1, np.nan, np.nan), (np.nan,2, np.nan)])
+def test_f_nan(x, r, expected):
+    # Test cases are (x, r, expected)
+    result = f(x, r)
+    assert_allclose(result, expected)
