@@ -6,12 +6,12 @@ from itertools import product
 import numpy as np
 
 
-SEED = 5
+SEED = np.random.randint(0, 2**31)
 
 
 @pytest.fixture
 def random_state():
-    print(f'Using seed{SEED}')
+    print(f'Using seed {SEED}')
     random_state = np.random.RandomState(SEED)
     return random_state
 
