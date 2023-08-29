@@ -4,16 +4,15 @@ from logistic import logistic_step
 
 # Add here your test for the logistic map
 
-
-def test_logistic_step_corner_cases():
-    # Test cases are (x, r, expected)
-    cases = [
+@pytest.mark.parametrize('x, r, expected', [
         (0, 1.1, 0),
         (1, 3.7, 0),
     ]
-    for x, r, expected in cases:
-        result = logistic_step(x, r)
-        assert_allclose(result, expected)
+    )
+def test_logistic_step_corner_cases(x, r, expected):
+    # Test cases are (x, r, expected)
+    result = logistic_step(x, r)
+    assert_allclose(result, expected)
 
 @pytest.mark.parametrize('x, r, expected', [
         (0.1, 2.2, 0.198),
